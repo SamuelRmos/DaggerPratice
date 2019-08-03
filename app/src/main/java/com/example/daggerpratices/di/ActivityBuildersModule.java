@@ -1,6 +1,15 @@
 package com.example.daggerpratices.di;
 
-@
+import com.example.daggerpratices.AuthActivity;
 
-public class ActivityBuildersModules {
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
+
+@Module
+public abstract class ActivityBuildersModule {
+
+    @ContributesAndroidInjector
+    abstract AuthActivity contributeAuthActivity();
+
+
 }
