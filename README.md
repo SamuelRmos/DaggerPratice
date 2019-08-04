@@ -1,2 +1,2 @@
 # DaggerPratice
-Building a simple app for using Dagger2, Retrofit2, MVVM architecture.
+Building a simple app using Dagger2, Retrofit2, MVVM architecture.
