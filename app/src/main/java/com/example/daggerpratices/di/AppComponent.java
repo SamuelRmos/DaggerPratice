@@ -2,6 +2,7 @@ package com.example.daggerpratices.di;
 
 import android.app.Application;
 import com.example.daggerpratices.BaseApplication;
+import com.example.daggerpratices.SessionManager;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
@@ -19,6 +20,8 @@ import javax.inject.Singleton;
         })
 
 public interface AppComponent extends AndroidInjector<BaseApplication> {
+
+    SessionManager sessionManager();
 
     @Component.Builder
     interface Builder{

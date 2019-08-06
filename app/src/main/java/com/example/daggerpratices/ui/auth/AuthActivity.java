@@ -1,5 +1,6 @@
 package com.example.daggerpratices.ui.auth;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -7,12 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.RequestManager;
 import com.example.daggerpratices.R;
 import com.example.daggerpratices.models.User;
+import com.example.daggerpratices.ui.main.MainActivity;
 import com.example.daggerpratices.viewmodels.ViewModelProviderFactory;
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -23,6 +27,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     private static final String TAG = "AuthActivity";
     private AuthViewModel viewModel;
     EditText userId;
+    private ProgressBar progressBar;
 
     @Inject
     ViewModelProviderFactory providerFactory;
@@ -41,6 +46,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
         viewModel = ViewModelProviders.of(this, providerFactory). get(AuthViewModel.class);
         userId = findViewById(R.id.user_id_input);
+        progressBar = findViewById(R.id.progress_bar);
 
         findViewById(R.id.login_button).setOnClickListener(this);
 
@@ -49,14 +55,52 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     }
 
     private void subscribeObserves(){
-        viewModel.observeUser().observe(this, new Observer<User>() {
+        viewModel.observeAuthState().observe(this, new Observer<AuthResource<User>>() {
             @Override
-            public void onChanged(User user) {
-                if (user != null){
-                    Log.d(TAG,"onChanged: " + user.getEmail());
+            public void onChanged(AuthResource<User> userAuthResource) {
+                if (userAuthResource != null){
+                    switch (userAuthResource.status){
+                        case LOADING:{
+                            showProgressBar(true);
+                            break;
+                        }
+                        case AUTHENTICATED:{
+                            showProgressBar(false);
+                            Log.d(TAG,"onChaged: LOGIN SUCCESS: " + userAuthResource.data.getEmail());
+                            onnLoginSucess();
+                            break;
+                        }
+                        case ERROR:{
+                            showProgressBar(false);
+                            Toast.makeText(AuthActivity.this, userAuthResource.message
+                                 + "\n Did you enter a number between 1 and 10?", Toast.LENGTH_LONG).show();
+                            break;
+                        }
+                        case NOT_AUTHENTICATED:{
+                            showProgressBar(false);
+                            break;
+                        }
+                    }
                 }
             }
         });
+
+    }
+
+    private void onnLoginSucess(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+    private  void showProgressBar(boolean isVisible){
+        if(isVisible){
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void setLogo(){

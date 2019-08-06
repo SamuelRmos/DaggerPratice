@@ -30,6 +30,9 @@ public class User {
         this.website = website;
     }
 
+    public User() {
+    }
+
     public int getId() {
         return id;
     }
