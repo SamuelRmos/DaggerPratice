@@ -27,8 +27,8 @@ public class AuthViewModel  extends ViewModel {
         }
 
         public void authenticateWithId(int userId){
-            Log.d(TAG,"autheticateWithId: attempting to login.");
-            sessionManager.athenticateWihtId(queryUserId(userId));
+            Log.d(TAG,"attemptLogin: attempting to login.");
+            sessionManager.authenticateWithId(queryUserId(userId));
 
         }
 

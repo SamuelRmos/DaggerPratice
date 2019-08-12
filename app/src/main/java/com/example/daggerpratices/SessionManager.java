@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 @Singleton
 public class SessionManager {
 
-    private  static final String TAG = "SessionMager";
+    private  static final String TAG = "SessionManager";
 
     private MediatorLiveData<AuthResource<User>> cachedUser = new MediatorLiveData<>();
 
@@ -21,7 +21,7 @@ public class SessionManager {
     public SessionManager(){
     }
 
-    public void athenticateWihtId(final LiveData<AuthResource<User>> source){
+    public void authenticateWithId(final LiveData<AuthResource<User>> source){
         if (cachedUser != null){
             cachedUser.setValue(AuthResource.loading((User)null));
             cachedUser.addSource(source, new Observer<AuthResource<User>>() {

@@ -67,7 +67,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                         case AUTHENTICATED:{
                             showProgressBar(false);
                             Log.d(TAG,"onChaged: LOGIN SUCCESS: " + userAuthResource.data.getEmail());
-                            onnLoginSucess();
+                            onLoginSucess();
                             break;
                         }
                         case ERROR:{
@@ -87,7 +87,9 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
     }
 
-    private void onnLoginSucess(){
+    private void onLoginSucess(){
+
+        Log.d(TAG, "onLoginSuccess: login successful!");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
