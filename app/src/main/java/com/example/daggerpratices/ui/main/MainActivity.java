@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import com.example.daggerpratices.BaseActivity;
 import com.example.daggerpratices.R;
+import com.example.daggerpratices.ui.main.profile.ProfileFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -18,7 +19,13 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(this,"MainActivity", Toast.LENGTH_SHORT).show();
+        testFragment();
+    }
+
+    private void testFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container, new ProfileFragment())
+                .commit();
     }
 
     @Override
