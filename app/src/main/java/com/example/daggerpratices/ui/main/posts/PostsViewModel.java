@@ -55,6 +55,8 @@ public class PostsViewModel extends ViewModel {
                             return posts;
                         }
                     })
+
+
                     .map(new Function<List<Post>, Resource<List<Post>>>() {
                         @Override
                         public Resource<List<Post>> apply(List<Post> posts) throws Exception {

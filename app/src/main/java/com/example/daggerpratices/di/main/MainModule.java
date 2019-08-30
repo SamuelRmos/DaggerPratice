@@ -10,6 +10,7 @@ import retrofit2.Retrofit;
 @Module
 public class MainModule {
 
+
     @Provides
     static PostsRecyclerAdapter provideAdapter(){
         return new PostsRecyclerAdapter();

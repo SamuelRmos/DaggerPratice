@@ -24,13 +24,12 @@ import dagger.android.support.DaggerFragment;
 
 import javax.inject.Inject;
 
-public class PostsFragments extends DaggerFragment {
+public class PostsFragment extends DaggerFragment {
 
     private static final String TAG = "PostsFragments";
 
     private PostsViewModel viewModel;
     private RecyclerView recyclerView;
-
 
     @Inject
     PostsRecyclerAdapter adapter;
@@ -41,33 +40,38 @@ public class PostsFragments extends DaggerFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragments_posts, container, false);
+        return inflater.inflate(R.layout.fragment_posts, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recycler_view);
+
         viewModel = ViewModelProviders.of(this, providerFactory).get(PostsViewModel.class);
+
         initRecyclerView();
-        subscribeObserves();
+        subscribeObervers();
     }
 
-    private void subscribeObserves(){
+    private void subscribeObervers(){
         viewModel.observePosts().removeObservers(getViewLifecycleOwner());
         viewModel.observePosts().observe(getViewLifecycleOwner(), new Observer<Resource<List<Post>>>() {
             @Override
             public void onChanged(Resource<List<Post>> listResource) {
-                if (listResource != null){
+                if(listResource != null){
                     switch (listResource.status){
+
                         case LOADING:{
                             Log.d(TAG, "onChanged: LOADING...");
-                        
+                            break;
                         }
+
                         case SUCCESS:{
                             Log.d(TAG, "onChanged: got posts...");
                             adapter.setPosts(listResource.data);
                             break;
                         }
+
                         case ERROR:{
                             Log.e(TAG, "onChanged: ERROR..." + listResource.message );
                             break;
